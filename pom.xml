@@ -17,6 +17,8 @@
         <!-- Plugins settings -->
         <protocol.version>5.1.0</protocol.version>
         <nbt.version>2.11.3</nbt.version>
+        <luckperms.version>5.4</luckperms.version>
+        <decentholograms.version>2.8.6</decentholograms.version>
 
         <!-- Libraries settings -->
         <paper.lib.version>1.0.7</paper.lib.version>
@@ -93,13 +95,13 @@
         <dependency>
             <groupId>net.luckperms</groupId>
             <artifactId>api</artifactId>
-            <version>5.4</version>
+            <version>${luckperms.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.decentsoftware-eu</groupId>
             <artifactId>decentholograms</artifactId>
-            <version>2.8.6</version>
+            <version>${decentholograms.version}</version>
             <scope>provided</scope>
         </dependency>
 
