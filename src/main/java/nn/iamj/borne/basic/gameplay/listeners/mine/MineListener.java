@@ -11,9 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import nn.iamj.borne.Borne;
@@ -26,6 +27,7 @@ import nn.iamj.borne.modules.util.blocks.Cuboid;
 import nn.iamj.borne.modules.util.event.EventUtils;
 
 import java.awt.event.FocusEvent;
+import java.util.Collection;
 import java.util.List;
 
 public final class MineListener implements Listener {
@@ -43,6 +45,81 @@ public final class MineListener implements Listener {
             entity.setFoodLevel(20);
 
         event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onChange(final EntityChangeBlockEvent event) {
+        if (event.isCancelled()) return;
+
+        final Block block = event.getBlock();
+
+        final Mine mine = Borne.getBorne().getMineManager().getMine(block.getLocation());
+
+        if (mine == null) return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onBurn(final BlockBurnEvent event) {
+        if (event.isCancelled()) return;
+
+        final Block block = event.getBlock();
+
+        final Mine mine = Borne.getBorne().getMineManager().getMine(block.getLocation());
+
+        if (mine == null) return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onRetract(final BlockPistonExtendEvent event) {
+        if (event.isCancelled()) return;
+
+        final List<Block> blocks = event.getBlocks();
+        blocks.forEach(block -> {
+            final Mine mine = Borne.getBorne().getMineManager().getMine(block.getLocation());
+
+            if (mine == null) return;
+
+            if (!event.isCancelled())
+                event.setCancelled(true);
+        });
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onRetract(final BlockPistonRetractEvent event) {
+        if (event.isCancelled()) return;
+
+        final List<Block> blocks = event.getBlocks();
+        blocks.forEach(block -> {
+            final Mine mine = Borne.getBorne().getMineManager().getMine(block.getLocation());
+
+            if (mine == null) return;
+
+            if (!event.isCancelled())
+                event.setCancelled(true);
+        });
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onExplosion(final EntityExplodeEvent event) {
+        if (event.isCancelled()) return;
+
+        final Collection<Block> blocks = event.blockList();
+        blocks.forEach(block -> {
+            blocks.remove(block);
+
+            final Mine mine = Borne.getBorne().getMineManager().getMine(block.getLocation());
+
+            if (mine == null) return;
+
+            final Cuboid mineArea = mine.getMineArea();
+
+            if (mineArea.isIn(block))
+                blocks.add(block);
+        });
     }
 
     @EventHandler(priority = EventPriority.HIGH)

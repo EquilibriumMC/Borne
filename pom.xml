@@ -39,10 +39,6 @@
             <id>papermc</id>
             <url>https://papermc.io/repo/repository/maven-public/</url>
         </repository>
-        <repository>
-            <id>destroystokyo-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
-        </repository>
 
         <!-- Other repositories -->
         <repository>
@@ -72,11 +68,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>net.md-5</groupId>
-            <artifactId>spigot-core</artifactId>
-            <version>${spigot.version}</version>
+            <groupId>com.md-5</groupId>
+            <artifactId>spigot</artifactId>
+            <version>${paper.version}</version>
             <scope>system</scope>
-            <systemPath>W:/libs/spigot-1.16.5.jar</systemPath>
+            <systemPath>X:/libraries/spigot-1.16.5.jar</systemPath>
         </dependency>
 
         <!-- Server plugins -->
