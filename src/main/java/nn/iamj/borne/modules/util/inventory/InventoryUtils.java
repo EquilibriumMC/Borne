@@ -5,42 +5,41 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
+import java.util.Collection;
 
 public final class InventoryUtils {
 
     private InventoryUtils() {}
 
-    public static boolean addItems(final Player player, final List<ItemStack> items) {
+    public static void addItems(final Player player, final Collection<ItemStack> items) {
         final Inventory inventory = player.getInventory();
 
         for (final ItemStack itemStack : items) {
             inventory.addItem(itemStack);
             if (inventory.firstEmpty() == -1)
-                return false;
+                return;
         }
 
-        return true;
     }
 
-    public static boolean addItems(final Player player, final ItemStack... items) {
+    public static void addItems(final Player player, final ItemStack... items) {
         final Inventory inventory = player.getInventory();
 
         for (final ItemStack itemStack : items) {
             inventory.addItem(itemStack);
             if (inventory.firstEmpty() == -1)
-                return false;
+                return;
         }
-
-        return true;
     }
 
     public static boolean addItems(final Player player, final ItemStack items) {
         final Inventory inventory = player.getInventory();
-        final World world = player.getWorld();
+
+        if (inventory.firstEmpty() != -1)
+            return false;
 
         inventory.addItem(items);
-        return inventory.firstEmpty() != -1;
+        return true;
     }
 
     public static boolean hasItems(final Player player, final ItemStack stack, final int i) {
