@@ -13,6 +13,7 @@ public abstract class Command implements Executable {
     private final String label;
     private final String description;
     private final String permission;
+
     private final List<String> aliases;
     private final boolean canConsoleExecute;
 

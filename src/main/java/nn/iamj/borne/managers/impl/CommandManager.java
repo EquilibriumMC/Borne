@@ -14,6 +14,7 @@ import nn.iamj.borne.modules.command.Command;
 import nn.iamj.borne.modules.command.Executable;
 import nn.iamj.borne.modules.server.printing.Text;
 import nn.iamj.borne.modules.util.logger.LoggerProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -80,12 +81,12 @@ public final class CommandManager implements Manager {
             final CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
             commandMap.register(command.getLabel(), new BukkitCommand(command.getLabel(), command.getDescription(), "", command.getAliases()) {
                 @Override
-                public boolean execute(CommandSender sender, String label, String[] args) {
+                public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
                     if (sender instanceof ConsoleCommandSender && !command.canConsoleExecute()) {
                         return false;
                     }
 
-                    if (command.hasPermission() && !sender.hasPermission(command.getPermission())) {
+                    if (command.hasPermission() && !command.checkPermissions(sender)) {
                         final FileConfiguration configuration = Borne.getBorne().getConfigManager().getFile("lang.yml");
 
                         if (configuration == null) {
@@ -108,7 +109,7 @@ public final class CommandManager implements Manager {
                 for (final String aliases : command.getAliases()) {
                     commandMap.register(aliases, new BukkitCommand(aliases, command.getDescription(), "", Collections.emptyList()) {
                         @Override
-                        public boolean execute(CommandSender sender, String label, String[] args) {
+                        public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
                             if (sender instanceof ConsoleCommandSender && !command.canConsoleExecute()) {
                                 return false;
                             }
