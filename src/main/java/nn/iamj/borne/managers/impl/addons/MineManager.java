@@ -198,6 +198,13 @@ public final class MineManager implements Manager {
         this.mines.remove(id);
     }
 
+    public List<Mine> getMines(final Location location) {
+        return this.mines.values().stream()
+                .filter(mine ->
+                        mine.getArea().isIn(location))
+                .toList();
+    }
+
     public Mine getMine(final Location location) {
         return this.mines.values().stream()
                 .filter(mine ->
