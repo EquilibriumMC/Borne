@@ -14,7 +14,7 @@ public final class SellPrompt {
 
     private SellPrompt() {}
 
-    public boolean handle(final @NotNull Profile profile) {
+    public static boolean handle(final @NotNull Profile profile) {
         final Player player = profile.asBukkit();
 
         if (player == null || !player.isOnline()) return false;
@@ -47,7 +47,7 @@ public final class SellPrompt {
         return true;
     }
 
-    public boolean handle(final @NotNull Profile profile, final ItemStack stack) {
+    public static boolean handle(final @NotNull Profile profile, final ItemStack stack) {
         final Player player = profile.asBukkit();
 
         if (player == null || !player.isOnline()) return false;

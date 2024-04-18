@@ -2,6 +2,7 @@ package nn.iamj.borne.plugin.loader;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
+import nn.iamj.borne.basic.commands.admin.admin.control.game.SellCommand;
 import org.bukkit.event.HandlerList;
 import nn.iamj.borne.Borne;
 import nn.iamj.borne.basic.commands.admin.BorneCommand;
@@ -169,6 +170,7 @@ public final class BorneLoader implements Borne {
         // Admin commands.
         this.commandManager.registerCommand(new GamemodeCommand());
         this.commandManager.registerCommand(new KillCommand());
+        this.commandManager.registerCommand(new SellCommand());
         this.commandManager.registerCommand(new EMineCommand());
         this.commandManager.registerCommand(new EPriceCommand());
 
