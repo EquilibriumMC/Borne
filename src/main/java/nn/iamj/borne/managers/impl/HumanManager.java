@@ -30,9 +30,11 @@ public final class HumanManager implements Manager {
     }
 
     public Human getHuman(final int id) {
-        for (final Human human : this.humanList.values()) if (human.getId() == id)
-                return human;
-        return null;
+        return this.humanList.values().stream()
+                .filter(human ->
+                        human.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 
     public void unregisterHuman(final String id) {
