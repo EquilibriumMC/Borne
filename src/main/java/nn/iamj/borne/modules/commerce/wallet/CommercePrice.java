@@ -5,11 +5,12 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Getter @Setter
 public class CommercePrice {
 
-    private Map<CommerceWallet, Integer> priceList;
+    private Map<CommerceWallet, Integer> priceList = new ConcurrentHashMap<>();
 
     public void addPrice(final @NotNull CommerceWallet wallet, final int price) {
         this.priceList.put(wallet, price);
