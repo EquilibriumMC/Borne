@@ -16,22 +16,32 @@ public abstract class BossBerserk {
         this.boss = boss;
     }
 
-    public final void tick() {
-        if (this.active)
-            this.stop();
-        else this.start();
+    public final void swap() {
+        if (!this.active)
+            this.doStart();
+        else this.doStop();
     }
 
-    public void start() {
-        EventUtils.callStaticEvent(new BossBerserkEvent(this.boss, BossBerserkEvent.Type.START));
+    public abstract void tick();
 
+    public abstract void start();
+
+    public abstract void stop();
+
+    public final void doStart() {
+        EventUtils.callStaticEvent(new BossBerserkEvent
+                (this.boss, BossBerserkEvent.Type.START));
         this.active = true;
+
+        this.start();
     }
 
-    public void stop() {
-        EventUtils.callStaticEvent(new BossBerserkEvent(this.boss, BossBerserkEvent.Type.END));
-
+    public final void doStop() {
+        EventUtils.callStaticEvent(new BossBerserkEvent
+                (this.boss, BossBerserkEvent.Type.END));
         this.active = false;
+
+        this.stop();
     }
 
 }

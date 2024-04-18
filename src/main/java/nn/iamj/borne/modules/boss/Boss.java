@@ -59,14 +59,19 @@ public final class Boss extends CustomEntity {
 
         EventUtils.callStaticEvent(new BossTickEvent(this));
 
-        if (this.berserk != null && this.lastBerserk + this.bossSettings.getCooldownBerserk() < System.currentTimeMillis()) {
-            this.lastBerserk = System.currentTimeMillis();
+        if (this.berserk != null) {
             this.berserk.tick();
+            if (this.lastBerserk + this.bossSettings.getCooldownBerserk() < System.currentTimeMillis()) {
+                this.lastBerserk = System.currentTimeMillis();
+                this.berserk.swap();
+            }
         }
+
         if (this.ability != null && this.lastAbility + this.bossSettings.getCooldownAbility() < System.currentTimeMillis()) {
             this.lastAbility = System.currentTimeMillis();
             this.ability.tick();
         }
+
         this.bossSettings.tick();
 
         this.bar.tick();
