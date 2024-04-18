@@ -2,9 +2,7 @@ package nn.iamj.borne.modules.commerce.unit;
 
 import lombok.Getter;
 import lombok.Setter;
-import nn.iamj.borne.modules.api.events.profile.wallet.ProfileWalletEvent;
 import nn.iamj.borne.modules.commerce.wallet.CommercePrice;
-import nn.iamj.borne.modules.commerce.wallet.CommerceWallet;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;

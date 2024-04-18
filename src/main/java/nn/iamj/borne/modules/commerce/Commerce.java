@@ -1,26 +1,13 @@
 package nn.iamj.borne.modules.commerce;
 
-import lombok.Getter;
-import lombok.Setter;
 import nn.iamj.borne.modules.commerce.page.CommercePage;
 
-import java.util.List;
+public interface Commerce {
 
-@Getter @Setter
-public class Commerce {
+    void addPage(final CommercePage page);
 
-    private List<CommercePage> pageList;
+    void removePage(final CommercePage page);
 
-    public void addPage(final CommercePage page) {
-        this.pageList.add(page);
-    }
-
-    public void removePage(final CommercePage page) {
-        this.pageList.remove(page);
-    }
-
-    public void clearPages() {
-        this.pageList.clear();
-    }
+    void clearPages();
 
 }
