@@ -27,7 +27,7 @@ import nn.iamj.borne.modules.util.component.Component;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@CommandMeta(rights = "command.amine")
+@CommandMeta(rights = "command.emine")
 public final class EMineCommand extends Command implements CommandCompleter, Listener {
 
     private static final Map<String, List<Location>> cache = new ConcurrentHashMap<>();
