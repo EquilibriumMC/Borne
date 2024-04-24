@@ -10,13 +10,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter @Setter
 public class CommercePrice {
 
-    private Map<CommerceWallet, Integer> priceList = new ConcurrentHashMap<>();
+    private Map<CommerceWallet, Double> priceList = new ConcurrentHashMap<>();
 
-    public void addPrice(final @NotNull CommerceWallet wallet, final int price) {
+    public void addPrice(final @NotNull CommerceWallet wallet, final double price) {
         this.priceList.put(wallet, price);
     }
 
-    public int getPrice(final @NotNull CommerceWallet wallet) {
+    public double getPrice(final @NotNull CommerceWallet wallet) {
         return this.priceList.get(wallet);
     }
 

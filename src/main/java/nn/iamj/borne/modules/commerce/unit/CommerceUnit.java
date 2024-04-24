@@ -2,12 +2,16 @@ package nn.iamj.borne.modules.commerce.unit;
 
 import lombok.Getter;
 import lombok.Setter;
+import nn.iamj.borne.Borne;
 import nn.iamj.borne.modules.commerce.wallet.CommercePrice;
+import nn.iamj.borne.modules.commerce.wallet.CommerceWallet;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Getter @Setter
 public class CommerceUnit {
@@ -15,12 +19,23 @@ public class CommerceUnit {
     private CommercePrice price;
 
     private int inflation;
+    private int difference;
     private int ratio;
 
     private ItemStack display;
 
     private List<ItemStack> stackList;
     private List<String> commandList;
+
+    public CommerceUnit() {
+        final YamlConfiguration configuration = Borne.getBorne().getConfigManager().getFile("config.yml");
+
+        if (configuration == null) return;
+
+        this.inflation = configuration.getInt("COMMERCE.DEFAULT.INFLATION", 0);
+        this.difference = configuration.getInt("COMMERCE.DEFAULT.DIFFERENCE", 12);
+        this.ratio = configuration.getInt("COMMERCE.DEFAULT.RATIO", 50);
+    }
 
     public ItemStack getDisplay() {
         if (this.display != null)
@@ -45,6 +60,22 @@ public class CommerceUnit {
 
     public void removeCommand(final @NotNull String command) {
         this.commandList.remove(command);
+    }
+
+    public void tick() {
+        final double price = this.getPrice().getPrice(CommerceWallet.MONEY);
+
+        if (price == 0.0D) return;
+
+        final int currentRatio = ThreadLocalRandom.current().nextInt(100);
+
+        if (currentRatio <= this.ratio) {
+            this.inflation -= this.difference;
+            this.ratio = Math.min(100, this.ratio + 10);
+        } else {
+            this.inflation += this.difference;
+            this.ratio = Math.max(0, this.ratio - 10);
+        }
     }
 
 }

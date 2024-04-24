@@ -36,7 +36,6 @@ public class CommerceSlot extends CommerceUnit {
                 }
 
                 CommerceUtils.pay(profile, slot.getPrice());
-
                 InventoryUtils.addItems(player, slot.getStackList());
 
                 if (Bukkit.isPrimaryThread()) {
