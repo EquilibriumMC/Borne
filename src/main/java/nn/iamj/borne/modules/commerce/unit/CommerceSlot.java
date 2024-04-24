@@ -38,13 +38,13 @@ public class CommerceSlot extends CommerceUnit {
                 CommerceUtils.pay(profile, slot.getPrice());
 
                 InventoryUtils.addItems(player, slot.getStackList());
-                slot.getCommandList().forEach(command -> {
-                    final Runnable runnable = () -> Borne.getBorne().getPlugin().getServer().dispatchCommand(Bukkit.getConsoleSender(), command);
 
-                    if (!Bukkit.isPrimaryThread()) {
-                        Scheduler.handle(runnable);
-                    } else runnable.run();
-                });
+                if (Bukkit.isPrimaryThread()) {
+                    slot.getCommandList().forEach(command ->
+                            Borne.getBorne().getPlugin().getServer().dispatchCommand(Bukkit.getConsoleSender(), command));
+                } else Scheduler.handle(() ->
+                        slot.getCommandList().forEach(command ->
+                            Borne.getBorne().getPlugin().getServer().dispatchCommand(Bukkit.getConsoleSender(), command)));
 
                 profile.sendText(Component.text(Component.Type.SUCCESS, "Вы успешно приобрели этот товар."));
             }
