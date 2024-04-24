@@ -1,5 +1,6 @@
 package nn.iamj.borne.basic.menus.talents;
 
+import nn.iamj.borne.modules.profile.assets.enums.StorageWalletType;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -203,14 +204,14 @@ public class TalentsMenu extends Menu {
         slot.setExecutableClick(new ExecutableClick() {
             @Override
             public void onLeft(final Profile profile) {
-                if (profile.getStorage().getEnergyCrystals() < 10
+                if (profile.getStorage().getWallet(StorageWalletType.ENERGY_CRYSTALS) < 10
                     || profile.getWallet().getMoney() < sum
                     || profile.getLevel().getExperience() < expSum) {
                     profile.sendText(Component.text(Component.Type.ERROR, "Вам не хватает ресурсов, для того чтобы прокачать эту способность."));
                     return;
                 }
 
-                profile.getStorage().removeEnergyCrystals(10);
+                profile.getStorage().removeWallet(StorageWalletType.ENERGY_CRYSTALS, 10);
                 profile.getWallet().removeMoney(sum);
                 profile.getLevel().removeExperience(expSum);
 

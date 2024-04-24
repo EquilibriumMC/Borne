@@ -1,5 +1,6 @@
 package nn.iamj.borne.basic.menus.skills;
 
+import nn.iamj.borne.modules.profile.assets.enums.StorageWalletType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import nn.iamj.borne.Borne;
@@ -172,27 +173,27 @@ public class SkillsMenu extends Menu {
                 }
 
                 if (skillsSum < 4) {
-                    if (profile.getStorage().getCommonBossMoney() < 1) {
+                    if (profile.getStorage().getWallet(StorageWalletType.COMMON_BOSS) < 1) {
                         profile.sendText(Component.text(Component.Type.ERROR, "У Вас нету монеты босса, для повышения навыка."));
                         return;
-                    } else profile.getStorage().removeCommonBossMoney();
+                    } else profile.getStorage().removeWallet(StorageWalletType.COMMON_BOSS, 1);
                 }
                 else if (skillsSum < 8) {
-                    if (profile.getStorage().getRareBossMoney() < 1) {
+                    if (profile.getStorage().getWallet(StorageWalletType.RARE_BOSS) < 1) {
                         profile.sendText(Component.text(Component.Type.ERROR, "У Вас нету монеты босса, для повышения навыка."));
                         return;
-                    } else profile.getStorage().removeRareBossMoney();
+                    } else profile.getStorage().removeWallet(StorageWalletType.RARE_BOSS, 1);
                 }
                 else if (skillsSum < 12) {
-                    if (profile.getStorage().getEpicBossMoney() < 1) {
+                    if (profile.getStorage().getWallet(StorageWalletType.EPIC_BOSS) < 1) {
                         profile.sendText(Component.text(Component.Type.ERROR, "У Вас нету монеты босса, для повышения навыка."));
                         return;
-                    } else profile.getStorage().removeEpicBossMoney();
+                    } else profile.getStorage().removeWallet(StorageWalletType.EPIC_BOSS, 1);
                 }
-                else if (profile.getStorage().getLegendBossMoney() < 1) {
+                else if (profile.getStorage().getWallet(StorageWalletType.LEGENDARY_BOSS) < 1) {
                     profile.sendText(Component.text(Component.Type.ERROR, "У Вас нету монеты босса, для повышения навыка."));
                     return;
-                } else profile.getStorage().removeLegendBossMoney();
+                } else profile.getStorage().removeWallet(StorageWalletType.LEGENDARY_BOSS, 1);
 
                 profile.getWallet().removeMoney(sum);
                 profile.getStorage().upgradeSkill(type);

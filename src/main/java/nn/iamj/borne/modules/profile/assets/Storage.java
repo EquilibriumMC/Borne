@@ -17,15 +17,21 @@ public final class Storage {
     private final Map<TalentType, Integer> talents = new ConcurrentHashMap<>();
     private final Map<SkillType, Integer> skills = new ConcurrentHashMap<>();
 
-    public int getWallet(final @NotNull StorageWalletType type) {
+    public int getWallet(final StorageWalletType type) {
+        if (type == null) return 0;
+
         return this.wallets.getOrDefault(type, 0);
     }
 
-    public void addWallet(final @NotNull StorageWalletType type, final int count) {
+    public void addWallet(final StorageWalletType type, final int count) {
+        if (type == null) return;
+
         this.setWallet(type, getWallet(type) + count);
     }
 
-    public boolean removeWallet(final @NotNull StorageWalletType type, final int count) {
+    public boolean removeWallet(final StorageWalletType type, final int count) {
+        if (type == null) return false;
+
         if (this.getWallet(type) < count)
             return false;
 
@@ -33,7 +39,9 @@ public final class Storage {
         return true;
     }
 
-    public void setWallet(final @NotNull StorageWalletType type, final int count) {
+    public void setWallet(final StorageWalletType type, final int count) {
+        if (type == null) return;
+
         this.wallets.put(type, count);
     }
 
