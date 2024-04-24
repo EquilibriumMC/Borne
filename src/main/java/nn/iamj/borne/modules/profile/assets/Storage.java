@@ -2,8 +2,10 @@ package nn.iamj.borne.modules.profile.assets;
 
 import lombok.Getter;
 import lombok.Setter;
+import nn.iamj.borne.modules.profile.assets.enums.StorageWalletType;
 import nn.iamj.borne.modules.skill.SkillType;
 import nn.iamj.borne.modules.talent.TalentType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,116 +13,28 @@ import java.util.concurrent.ConcurrentHashMap;
 @Getter
 public final class Storage {
 
-    @Setter
-    private int energyCrystals;
-
-    @Setter
-    private int commonBossMoney;
-    @Setter
-    private int rareBossMoney;
-    @Setter
-    private int epicBossMoney;
-    @Setter
-    private int legendBossMoney;
-
+    private final Map<StorageWalletType, Integer> wallets = new ConcurrentHashMap<>();
     private final Map<TalentType, Integer> talents = new ConcurrentHashMap<>();
     private final Map<SkillType, Integer> skills = new ConcurrentHashMap<>();
 
-    public void addEnergyCrystals(final int number) {
-        this.energyCrystals += number;
+    public int getWallet(final @NotNull StorageWalletType type) {
+        return this.wallets.getOrDefault(type, 0);
     }
 
-    public boolean removeEnergyCrystals(final int number) {
-        if (this.energyCrystals - number < 0)
+    public void addWallet(final @NotNull StorageWalletType type, final int count) {
+        this.setWallet(type, getWallet(type) + count);
+    }
+
+    public boolean removeWallet(final @NotNull StorageWalletType type, final int count) {
+        if (this.getWallet(type) < count)
             return false;
 
-        this.energyCrystals = this.energyCrystals - number;
-
+        this.setWallet(type, getWallet(type) - count);
         return true;
     }
 
-    public void addCommonBossMoney() {
-        this.addCommonBossMoney(1);
-    }
-
-    public void addCommonBossMoney(final int number) {
-        this.commonBossMoney += number;
-    }
-
-    public boolean removeCommonBossMoney() {
-        return removeCommonBossMoney(1);
-    }
-
-    public boolean removeCommonBossMoney(final int number) {
-        if (this.commonBossMoney - number < 0)
-            return false;
-
-        this.commonBossMoney = this.commonBossMoney - number;
-
-        return true;
-    }
-
-    public void addRareBossMoney() {
-        this.addRareBossMoney(1);
-    }
-
-    public void addRareBossMoney(final int number) {
-        this.rareBossMoney += number;
-    }
-
-    public boolean removeRareBossMoney() {
-        return removeRareBossMoney(1);
-    }
-
-    public boolean removeRareBossMoney(final int number) {
-        if (this.rareBossMoney - number < 0)
-            return false;
-
-        this.rareBossMoney = this.rareBossMoney - number;
-
-        return true;
-    }
-
-    public void addEpicBossMoney() {
-        this.addEpicBossMoney(1);
-    }
-
-    public void addEpicBossMoney(final int number) {
-        this.epicBossMoney += number;
-    }
-
-    public boolean removeEpicBossMoney() {
-        return removeEpicBossMoney(1);
-    }
-
-    public boolean removeEpicBossMoney(final int number) {
-        if (this.epicBossMoney - number < 0)
-            return false;
-
-        this.epicBossMoney = this.epicBossMoney - number;
-
-        return true;
-    }
-
-    public void addLegendBossMoney() {
-        this.addLegendBossMoney(1);
-    }
-
-    public void addLegendBossMoney(final int number) {
-        this.legendBossMoney += number;
-    }
-
-    public boolean removeLegendBossMoney() {
-        return removeLegendBossMoney(1);
-    }
-
-    public boolean removeLegendBossMoney(final int number) {
-        if (this.legendBossMoney - number < 0)
-            return false;
-
-        this.legendBossMoney = this.legendBossMoney - number;
-
-        return true;
+    public void setWallet(final @NotNull StorageWalletType type, final int count) {
+        this.wallets.put(type, count);
     }
 
     public void upgradeTalent(final TalentType type) {
