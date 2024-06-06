@@ -18,10 +18,41 @@ public final class Statistic {
     private int mobKills;
     private int bossKills;
 
+    private double allMoney;
+    private double allMoneyNoBoosters;
+
     private double damage;
     private int punches;
 
+    private double allFee;
+
+    private boolean selfThanks;
+
     private Map<TalentType, Integer> activations = new ConcurrentHashMap<>();
+
+    public void addAllMoney(final double money) {
+        this.allMoney += money;
+    }
+
+    public void removeAllMoney(final double money) {
+        this.allMoney -= money;
+    }
+
+    public void addAllMoneyNoBoosters(final double money) {
+        this.allMoneyNoBoosters += money;
+    }
+
+    public void removeAllMoneyNoBoosters(final double money) {
+        this.allMoneyNoBoosters -= money;
+    }
+
+    public void addFee(final double fee) {
+        this.allFee += fee;
+    }
+
+    public void removeFee(final double fee) {
+        this.allFee -= fee;
+    }
 
     public void addBlockBreaks(final int number) {
         this.blockBreaks += number;

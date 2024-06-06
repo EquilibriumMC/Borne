@@ -20,7 +20,7 @@ import java.util.Map;
 public final class MineSettingsListener implements Listener {
 
     @Getter
-    private static final Map<String, Mine> changeLabelCache = new ExpiringMap<>(180000);
+    private static final ExpiringMap<String, Mine> changeLabelCache = new ExpiringMap<>(180000);
 
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.LOWEST)

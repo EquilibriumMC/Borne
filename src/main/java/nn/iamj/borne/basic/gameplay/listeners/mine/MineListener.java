@@ -4,18 +4,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Breedable;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.HumanEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerItemDamageEvent;
 import nn.iamj.borne.Borne;
 import nn.iamj.borne.modules.api.events.mine.MineRegenerateEvent;
@@ -74,7 +68,7 @@ public final class MineListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onRetract(final BlockPistonExtendEvent event) {
+    public void onExtend(final BlockPistonExtendEvent event) {
         if (event.isCancelled()) return;
 
         final List<Block> blocks = event.getBlocks();
@@ -160,6 +154,18 @@ public final class MineListener implements Listener {
 
         event.setDamage(0.0D);
         event.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onSpawn(final EntitySpawnEvent event) {
+        if (event.isCancelled()) return;
+
+        final Entity entity = event.getEntity();
+
+        if (entity instanceof Item) return;
+
+        if (Borne.getBorne().getEntityManager().getEntity(entity.getUniqueId()) == null)
+            event.setCancelled(true);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

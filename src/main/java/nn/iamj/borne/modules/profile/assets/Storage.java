@@ -2,20 +2,33 @@ package nn.iamj.borne.modules.profile.assets;
 
 import lombok.Getter;
 import lombok.Setter;
+import nn.iamj.borne.modules.booster.Booster;
 import nn.iamj.borne.modules.profile.assets.enums.StorageWalletType;
 import nn.iamj.borne.modules.skill.SkillType;
 import nn.iamj.borne.modules.talent.TalentType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Getter
 public final class Storage {
 
+    private final List<Booster> boosters = new ArrayList<>();
+
     private final Map<StorageWalletType, Integer> wallets = new ConcurrentHashMap<>();
     private final Map<TalentType, Integer> talents = new ConcurrentHashMap<>();
     private final Map<SkillType, Integer> skills = new ConcurrentHashMap<>();
+
+    public void addBooster(final Booster booster) {
+        this.boosters.add(booster);
+    }
+
+    public void removeBooster(final Booster booster) {
+        this.boosters.remove(booster);
+    }
 
     public int getWallet(final StorageWalletType type) {
         if (type == null) return 0;

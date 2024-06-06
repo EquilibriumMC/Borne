@@ -3,10 +3,7 @@ package nn.iamj.borne.modules.util.event;
 import org.bukkit.event.Event;
 import nn.iamj.borne.modules.util.logger.LoggerProvider;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public final class EventUtils {
 
@@ -21,7 +18,7 @@ public final class EventUtils {
     }
 
     public static boolean callEvent(final Event event) {
-        /*
+        /*try {
             final CompletableFuture<Boolean> result = new CompletableFuture<>();
 
             if (service.isShutdown()) return false;
@@ -29,9 +26,10 @@ public final class EventUtils {
             service.execute(() ->
                     result.complete(event.callEvent()));
 
-            return result.get();
-             */
-
+            return result.get(8, TimeUnit.SECONDS);
+        } catch (Exception exception) {
+            return false;
+        }*/
         callStaticEvent(event);
 
         return true;

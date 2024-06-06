@@ -10,6 +10,7 @@
 #
 
 HUD: "&f혠 &e[{LEVEL}]   &f혡 &e[{EXP}]           &f혣 &e[{DONATED}]   &f혤 &e[{MONEY}]"
+BOOSTER: "&eБустер [x{MODIFIER}] &7от игрока &e{PLAYER}&7 на &e{SECONDS_KEEP}"
 
 #
 #   BOSS SETTINGS.

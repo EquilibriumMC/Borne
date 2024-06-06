@@ -3,9 +3,11 @@ package nn.iamj.borne.modules.util.collection.pair;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class Pair<T, Y> {
+public class Pair<T, Y> implements Serializable {
 
     private T key;
     private Y value;

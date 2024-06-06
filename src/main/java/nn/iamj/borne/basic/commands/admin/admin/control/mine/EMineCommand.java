@@ -145,8 +145,8 @@ public final class EMineCommand extends Command implements CommandCompleter, Lis
                     final Location firstMineArea = locations.get(2);
                     final Location secondMineArea = locations.get(3);
 
-                    final Location spawn = locations.get(4);
-                    final Location hologram = profile.asBukkit().getLocation();
+                    final Location spawn = profile.asBukkit().getLocation();
+                    final Location hologram = locations.get(4);
 
                     final MineBuilder builder = MineBuilder.createBuilder();
 

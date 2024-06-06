@@ -2,7 +2,21 @@ package nn.iamj.borne.plugin.loader;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
+import nn.iamj.borne.basic.commands.admin.admin.control.booster.BoosterCommand;
 import nn.iamj.borne.basic.commands.admin.admin.control.game.SellCommand;
+import nn.iamj.borne.basic.commands.game.MinesCommand;
+import nn.iamj.borne.basic.commands.game.SpawnCommand;
+import nn.iamj.borne.basic.commands.game.boosters.BoostersCommand;
+import nn.iamj.borne.basic.commands.game.boosters.ThanksCommand;
+import nn.iamj.borne.basic.gameplay.listeners.*;
+import nn.iamj.borne.basic.gameplay.listeners.protect.ProtectedCuboidListener;
+import nn.iamj.borne.managers.impl.addons.*;
+import nn.iamj.borne.modules.booster.BoosterStorage;
+import nn.iamj.borne.modules.booster.listeners.BoosterListener;
+import nn.iamj.borne.modules.chat.ChatListener;
+import nn.iamj.borne.modules.protect.ProtectedCuboid;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.event.HandlerList;
 import nn.iamj.borne.Borne;
 import nn.iamj.borne.basic.commands.admin.BorneCommand;
@@ -12,10 +26,6 @@ import nn.iamj.borne.basic.commands.admin.admin.control.mine.EMineCommand;
 import nn.iamj.borne.basic.commands.admin.admin.control.mine.EPriceCommand;
 import nn.iamj.borne.basic.commands.game.skills.SkillsCommand;
 import nn.iamj.borne.basic.commands.game.talents.TalentsCommand;
-import nn.iamj.borne.basic.gameplay.listeners.BlockListener;
-import nn.iamj.borne.basic.gameplay.listeners.ExperienceListener;
-import nn.iamj.borne.basic.gameplay.listeners.HudListener;
-import nn.iamj.borne.basic.gameplay.listeners.ProfileBasicListener;
 import nn.iamj.borne.basic.gameplay.listeners.ability.SkillListener;
 import nn.iamj.borne.basic.gameplay.listeners.boss.BossListener;
 import nn.iamj.borne.basic.gameplay.listeners.entity.SkillEntityListener;
@@ -26,10 +36,6 @@ import nn.iamj.borne.basic.gameplay.listeners.ability.TalentListener;
 import nn.iamj.borne.basic.protocol.crashes.TabPacketListener;
 import nn.iamj.borne.basic.providers.HudProvider;
 import nn.iamj.borne.managers.impl.*;
-import nn.iamj.borne.managers.impl.addons.BossManager;
-import nn.iamj.borne.managers.impl.addons.MineManager;
-import nn.iamj.borne.managers.impl.addons.SkillManager;
-import nn.iamj.borne.managers.impl.addons.TalentManager;
 import nn.iamj.borne.modules.command.listener.CommandListener;
 import nn.iamj.borne.modules.database.DataBase;
 import nn.iamj.borne.modules.human.listeners.HumanPacketListener;
@@ -66,6 +72,7 @@ public final class BorneLoader implements Borne {
     private final SkillManager skillManager;
     private final MineManager mineManager;
     private final BossManager bossManager;
+    private final ProtectedCuboidManager protectedCuboidManager;
 
     public BorneLoader(final BornePlugin plugin) {
         loader = this;
@@ -90,6 +97,7 @@ public final class BorneLoader implements Borne {
         this.skillManager = new SkillManager();
         this.mineManager = new MineManager();
         this.bossManager = new BossManager();
+        this.protectedCuboidManager = new ProtectedCuboidManager();
     }
 
     @Override
@@ -108,6 +116,7 @@ public final class BorneLoader implements Borne {
         this.skillManager.preload();
         this.mineManager.preload();
         this.bossManager.preload();
+        this.protectedCuboidManager.preload();
     }
 
     @Override
@@ -126,6 +135,7 @@ public final class BorneLoader implements Borne {
         this.skillManager.initialize();
         this.mineManager.initialize();
         this.bossManager.initialize();
+        this.protectedCuboidManager.initialize();
 
         this.loadClasses();
         this.loadListeners();
@@ -141,6 +151,9 @@ public final class BorneLoader implements Borne {
         this.listenerManager.registerListener(new ProfileListener());
         this.listenerManager.registerListener(new CommandListener());
         this.listenerManager.registerListener(new MenuListener());
+        this.listenerManager.registerListener(new ChatListener());
+        this.listenerManager.registerListener(new BasicListener());
+        this.listenerManager.registerListener(new ProtectedCuboidListener());
 
         this.listenerManager.registerListener(new ExperienceListener());
         this.listenerManager.registerListener(new BlockListener());
@@ -156,6 +169,7 @@ public final class BorneLoader implements Borne {
 
         // Providers..
         this.listenerManager.registerListener(new HudProvider());
+        this.listenerManager.registerListener(new BoosterListener());
 
         // Commands and menus..
         this.listenerManager.registerListener(new EMineCommand());
@@ -173,13 +187,24 @@ public final class BorneLoader implements Borne {
         this.commandManager.registerCommand(new SellCommand());
         this.commandManager.registerCommand(new EMineCommand());
         this.commandManager.registerCommand(new EPriceCommand());
+        this.commandManager.registerCommand(new MinesCommand());
+        this.commandManager.registerCommand(new BoosterCommand());
 
         // Game commands.
+        this.commandManager.registerCommand(new SpawnCommand());
         this.commandManager.registerCommand(new SkillsCommand());
         this.commandManager.registerCommand(new TalentsCommand());
+        this.commandManager.registerCommand(new ThanksCommand());
+        this.commandManager.registerCommand(new BoostersCommand());
     }
 
     private void loadClasses() {
+        final ProtectedCuboid cuboid = new ProtectedCuboid(
+                new Location(Bukkit.getWorld("spawn"), 110, -10, 128),
+                new Location(Bukkit.getWorld("spawn"), -234, 180, -116)
+        );
+        this.protectedCuboidManager.add("spawn", cuboid);
+
         Scheduler.asyncHandleRate(() ->
                 this.dataBase.fetchData("SELECT 1")
         , 10 * 20 * 60, 10 * 20 * 60);
@@ -202,6 +227,7 @@ public final class BorneLoader implements Borne {
 
     @Override
     public void shutdown() {
+        this.protectedCuboidManager.shutdown();
         this.bossManager.shutdown();
         this.mineManager.shutdown();
         this.skillManager.shutdown();
@@ -217,6 +243,8 @@ public final class BorneLoader implements Borne {
 
         ProtocolLibrary.getProtocolManager().removePacketListeners(this.plugin);
         HandlerList.unregisterAll(this.plugin);
+
+        BoosterStorage.save();
 
         Scheduler.shutdown();
 

@@ -1,5 +1,6 @@
 package nn.iamj.borne.modules.util.inventory;
 
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -84,12 +85,13 @@ public final class InventoryUtils {
         final Inventory inv = player.getInventory();
         int count = i;
 
+        if (stack == null || stack.getType() == Material.AIR) return;
+
         for (ItemStack s : inv) {
-            if (s == null)
-                continue;
+            if (s == null || s.getType() == Material.AIR) continue;
 
             ItemStack clone = s.clone();
-            clone.setAmount(1);
+            clone.setAmount(stack.getAmount());
 
             if (count <= 0)
                 return;

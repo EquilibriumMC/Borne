@@ -13,11 +13,13 @@ public final class ProfileLoadEvent extends ProfileEvent {
     private static final HandlerList handlerList = new HandlerList();
 
     private final Player player;
+    private final boolean playedBefore;
 
-    public ProfileLoadEvent(final Profile profile, final Player player) {
+    public ProfileLoadEvent(final Profile profile, final Player player, final boolean playedBefore) {
         super(profile);
 
         this.player = player;
+        this.playedBefore = playedBefore;
     }
 
     @Override @NotNull

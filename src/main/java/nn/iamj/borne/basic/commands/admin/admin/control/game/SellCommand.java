@@ -2,7 +2,6 @@ package nn.iamj.borne.basic.commands.admin.admin.control.game;
 
 import nn.iamj.borne.basic.prompts.SellPrompt;
 import nn.iamj.borne.modules.command.Command;
-import nn.iamj.borne.modules.command.annotations.CommandMeta;
 import nn.iamj.borne.modules.profile.Profile;
 import nn.iamj.borne.modules.util.component.Component;
 import org.bukkit.command.CommandSender;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@CommandMeta(rights = "command.sell")
+//@CommandMeta(rights = "command.sell")
 public final class SellCommand extends Command {
 
     public SellCommand() {

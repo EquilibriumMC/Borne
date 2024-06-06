@@ -42,7 +42,7 @@ public final class ProfileListener implements Listener {
             return;
         }
 
-        EventUtils.callEvent(new ProfileLoadEvent(profile, player));
+        EventUtils.callEvent(new ProfileLoadEvent(profile, player, event.getPlayer().hasPlayedBefore()));
     }
 
     @SuppressWarnings("all")
