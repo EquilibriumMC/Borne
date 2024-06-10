@@ -28,6 +28,7 @@ public final class MineBuilder {
     private int cooldown;
     private int minLevel;
     private boolean allowPvP;
+    private int priority;
 
     private Map<Material, Integer> materials;
 
@@ -55,6 +56,7 @@ public final class MineBuilder {
         settings.setMinLevel(this.minLevel);
         settings.setMinRatio(this.ratio);
         settings.setCooldown(this.cooldown);
+        settings.setPriority(this.priority);
 
         final Mine mine = new Mine(id, label, spawnPoint, hologramPoint, areaFirstPoint, areaSecondPoint, mineFirstPoint, mineSecondPoint, settings);
 

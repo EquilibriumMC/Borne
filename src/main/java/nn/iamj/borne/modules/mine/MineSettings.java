@@ -12,5 +12,6 @@ public final class MineSettings {
 
     private int minLevel;
     private int cooldown;
+    private int priority;
 
 }

@@ -92,7 +92,6 @@ public class Menu {
         }
     }
 
-    @Deprecated
     public Menu setSlot(final MenuSlot slot) {
         return this.setSlot(slot.getPosition(), slot);
     }

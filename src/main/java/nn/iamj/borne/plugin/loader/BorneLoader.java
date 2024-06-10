@@ -8,6 +8,7 @@ import nn.iamj.borne.basic.commands.game.MinesCommand;
 import nn.iamj.borne.basic.commands.game.SpawnCommand;
 import nn.iamj.borne.basic.commands.game.boosters.BoostersCommand;
 import nn.iamj.borne.basic.commands.game.boosters.ThanksCommand;
+import nn.iamj.borne.basic.commands.game.eco.PayCommand;
 import nn.iamj.borne.basic.gameplay.listeners.*;
 import nn.iamj.borne.basic.gameplay.listeners.protect.ProtectedCuboidListener;
 import nn.iamj.borne.managers.impl.addons.*;
@@ -189,6 +190,7 @@ public final class BorneLoader implements Borne {
         this.commandManager.registerCommand(new EPriceCommand());
         this.commandManager.registerCommand(new MinesCommand());
         this.commandManager.registerCommand(new BoosterCommand());
+        this.commandManager.registerCommand(new PayCommand());
 
         // Game commands.
         this.commandManager.registerCommand(new SpawnCommand());

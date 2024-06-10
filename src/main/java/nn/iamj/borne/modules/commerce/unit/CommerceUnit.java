@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -24,8 +25,9 @@ public class CommerceUnit {
 
     private ItemStack display;
 
-    private List<ItemStack> stackList;
-    private List<String> commandList;
+    private List<ItemStack> stackList = new ArrayList<>();
+    private List<Runnable> runnables = new ArrayList<>();
+    private List<String> commandList = new ArrayList<>();
 
     public CommerceUnit() {
         final YamlConfiguration configuration = Borne.getBorne().getConfigManager().getFile("config.yml");
@@ -52,6 +54,14 @@ public class CommerceUnit {
 
     public void removeItem(final @NotNull ItemStack stack) {
         this.stackList.remove(stack);
+    }
+
+    public void addRunnable(final @NotNull Runnable runnable) {
+        this.runnables.add(runnable);
+    }
+
+    public void removeRunnable(final @NotNull Runnable runnable) {
+        this.runnables.remove(runnable);
     }
 
     public void addCommand(final @NotNull String command) {

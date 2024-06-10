@@ -7,6 +7,7 @@ import nn.iamj.borne.modules.menu.slot.MenuSlot;
 import nn.iamj.borne.modules.mine.Mine;
 import nn.iamj.borne.modules.profile.Profile;
 import nn.iamj.borne.modules.server.printing.Text;
+import nn.iamj.borne.modules.server.scheduler.Scheduler;
 import nn.iamj.borne.modules.util.component.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -51,7 +52,7 @@ public class MinesMenu extends Menu {
 
         for (int i = 0; i < 512; i++) {
             int finalI = i;
-            final List<Mine> m = Borne.getBorne().getMineManager().getMines().values().stream().filter(mine -> mine.getSettings().getMinLevel() == finalI).toList();
+            final List<Mine> m = Borne.getBorne().getMineManager().getMines().values().stream().filter(mine -> mine.getSettings().getPriority() == finalI).toList();
             mines.addAll(m);
         }
 
@@ -106,7 +107,7 @@ public class MinesMenu extends Menu {
 
         this.setSlot(49, exit);
 
-        player.openInventory(this.getInventory());
+        Scheduler.handle(() -> player.openInventory(this.getInventory()));
     }
 
 }

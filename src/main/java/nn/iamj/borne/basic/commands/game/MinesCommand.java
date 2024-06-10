@@ -4,6 +4,7 @@ import nn.iamj.borne.basic.menus.mines.MinesMenu;
 import nn.iamj.borne.modules.command.Command;
 import nn.iamj.borne.modules.command.annotations.CommandMeta;
 import nn.iamj.borne.modules.profile.Profile;
+import nn.iamj.borne.modules.server.scheduler.Scheduler;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,8 +19,10 @@ public class MinesCommand extends Command {
 
     @Override
     public void execute(@NotNull CommandSender sender, @NotNull Command command, @NotNull List<String> args) {
-        final MinesMenu menu = new MinesMenu(Profile.asSender(sender));
+        Scheduler.asyncHandle(() -> {
+           final MinesMenu menu = new MinesMenu(Profile.asSender(sender));
 
-        menu.open();
+            menu.open();
+        });
     }
 }

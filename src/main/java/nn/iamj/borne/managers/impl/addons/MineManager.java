@@ -1,6 +1,7 @@
 package nn.iamj.borne.managers.impl.addons;
 
 import lombok.Getter;
+import nn.iamj.borne.modules.util.arrays.impl.LocationPlusParser;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -53,7 +54,7 @@ public final class MineManager implements Manager {
             final String mineFirstPoint = configuration.getString("MINES." + key + ".LOCATIONS.MINE.FIRST");
             final String mineSecondPoint = configuration.getString("MINES." + key + ".LOCATIONS.MINE.SECOND");
 
-            final Location spawn = LocationParser.parse(spawnPoint);
+            final Location spawn = LocationPlusParser.parse(spawnPoint);
             final Location hologram = LocationParser.parse(hologramPoint);
 
             final Location areaFirst = LocationParser.parse(areaFirstPoint);
@@ -113,11 +114,13 @@ public final class MineManager implements Manager {
             final int minLevel = configuration.getInt("MINES." + key + ".SETTINGS.MIN-LEVEL", 1);
             final double minRatio = configuration.getDouble("MINES." + key + ".SETTINGS.MIN-RATIO", 35);
             final int cooldown = configuration.getInt("MINES." + key + ".SETTINGS.COOLDOWN", 0);
+            final int priority = configuration.getInt("MINES." + key + ".SETTINGS.PRIORITY", 0);
 
             builder.setRatio(minRatio);
             builder.setCooldown(cooldown);
             builder.setAllowPvP(allowPvP);
             builder.setMinLevel(minLevel);
+            builder.setPriority(priority);
 
             final Mine mine = builder.createMine();
 
@@ -152,7 +155,7 @@ public final class MineManager implements Manager {
 
         configuration.createSection("MINES." + mine.getId().toUpperCase() + ".LOCATIONS");
 
-        configuration.set("MINES." + mine.getId().toUpperCase() + ".LOCATIONS.SPAWN", LocationParser.deparse(mine.getSpawnLocation()));
+        configuration.set("MINES." + mine.getId().toUpperCase() + ".LOCATIONS.SPAWN", LocationPlusParser.deparse(mine.getSpawnLocation()));
         configuration.set("MINES." + mine.getId().toUpperCase() + ".LOCATIONS.HOLOGRAM", LocationParser.deparse(mine.getHologram().getLocation()));
 
         configuration.createSection("MINES." + mine.getId().toUpperCase() + ".LOCATIONS.AREA");
@@ -171,6 +174,7 @@ public final class MineManager implements Manager {
         configuration.set("MINES." + mine.getId().toUpperCase() + ".SETTINGS.MIN-LEVEL", mine.getSettings().getMinLevel());
         configuration.set("MINES." + mine.getId().toUpperCase() + ".SETTINGS.MIN-RATIO", mine.getSettings().getMinRatio());
         configuration.set("MINES." + mine.getId().toUpperCase() + ".SETTINGS.COOLDOWN", mine.getSettings().getCooldown());
+        configuration.set("MINES." + mine.getId().toUpperCase() + ".SETTINGS.PRIORITY", mine.getSettings().getPriority());
 
         final List<String> strings = new ArrayList<>();
 

@@ -59,6 +59,8 @@ public final class MineSettingsMenu extends Menu {
         this.setSlot(20, allowPvPSlot());
         this.setSlot(21, minLevelSlot());
 
+        this.setSlot(22, prioritySlot());
+
         this.setSlot(23, minRatioSlot());
         this.setSlot(24, sleepSlot());
 
@@ -148,6 +150,41 @@ public final class MineSettingsMenu extends Menu {
         });
 
         return allowPvPSlot;
+    }
+
+    private MenuSlot prioritySlot() {
+        final MenuSlot prioritySlot = new MenuSlot(Material.ENDER_EYE);
+
+        prioritySlot.setDisplay(new Text("&f혲 " + Component.ORANGE + "Приоритет."));
+        prioritySlot.setLore(
+                new Text(""),
+                new Text("&8| &fЗначение: &e" + mine.getSettings().getPriority()),
+                new Text(""),
+                new Text("&8«" + Component.ORANGE + " ЛКМ -           + ПКМ &8»")
+        );
+        prioritySlot.removeAttributes(true);
+
+        prioritySlot.setExecutableClick(new ExecutableClick() {
+            @Override
+            public void onLeft(final Profile profile) {
+                final MineSettings settings = mine.getSettings();
+
+                settings.setPriority(Math.max(settings.getPriority() - 1, 1));
+
+                openMenu();
+            }
+
+            @Override
+            public void onRight(final Profile profile) {
+                final MineSettings settings = mine.getSettings();
+
+                settings.setPriority(Math.min(settings.getPriority() + 1, 65535));
+
+                openMenu();
+            }
+        });
+
+        return prioritySlot;
     }
 
     private MenuSlot minLevelSlot() {
