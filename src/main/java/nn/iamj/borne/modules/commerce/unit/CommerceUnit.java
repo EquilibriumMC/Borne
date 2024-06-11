@@ -5,6 +5,7 @@ import lombok.Setter;
 import nn.iamj.borne.Borne;
 import nn.iamj.borne.modules.commerce.wallet.CommercePrice;
 import nn.iamj.borne.modules.commerce.wallet.CommerceWallet;
+import nn.iamj.borne.modules.profile.Profile;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -25,9 +26,13 @@ public class CommerceUnit {
 
     private ItemStack display;
 
+    private CommerceExecutable executable;
     private List<ItemStack> stackList = new ArrayList<>();
-    private List<Runnable> runnables = new ArrayList<>();
     private List<String> commandList = new ArrayList<>();
+
+    public abstract static class CommerceExecutable {
+        public abstract void onBuy(final Profile profile);
+    }
 
     public CommerceUnit() {
         final YamlConfiguration configuration = Borne.getBorne().getConfigManager().getFile("config.yml");
@@ -56,12 +61,12 @@ public class CommerceUnit {
         this.stackList.remove(stack);
     }
 
-    public void addRunnable(final @NotNull Runnable runnable) {
-        this.runnables.add(runnable);
+    public void setRunnable(final @NotNull CommerceExecutable executable) {
+        this.executable = executable;
     }
 
-    public void removeRunnable(final @NotNull Runnable runnable) {
-        this.runnables.remove(runnable);
+    public boolean hasExecutable() {
+        return this.executable != null;
     }
 
     public void addCommand(final @NotNull String command) {

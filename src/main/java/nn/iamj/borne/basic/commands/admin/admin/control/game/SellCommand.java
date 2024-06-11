@@ -1,15 +1,18 @@
 package nn.iamj.borne.basic.commands.admin.admin.control.game;
 
+import nn.iamj.borne.basic.menus.sell.SellMenu;
 import nn.iamj.borne.basic.prompts.SellPrompt;
 import nn.iamj.borne.modules.command.Command;
+import nn.iamj.borne.modules.command.annotations.CommandMeta;
 import nn.iamj.borne.modules.profile.Profile;
+import nn.iamj.borne.modules.util.arrays.BetterParser;
 import nn.iamj.borne.modules.util.component.Component;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-//@CommandMeta(rights = "command.sell")
 public final class SellCommand extends Command {
 
     public SellCommand() {
@@ -21,6 +24,13 @@ public final class SellCommand extends Command {
         final Profile profile = Profile.asSender(sender);
 
         if (profile == null) return;
+
+        final BetterParser parser = BetterParser.parse(args);
+
+        if (!sender.hasPermission("command.sell") || parser.isFlagSpecified("p")) {
+            SellMenu.open(profile);
+            return;
+        }
 
         if (args.isEmpty()) {
             if (profile.isSystemProvider()) {

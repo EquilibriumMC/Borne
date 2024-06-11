@@ -1,5 +1,6 @@
 package nn.iamj.borne.modules.commerce.menu;
 
+import nn.iamj.borne.Borne;
 import nn.iamj.borne.modules.commerce.Commerce;
 import nn.iamj.borne.modules.commerce.page.CommercePage;
 import nn.iamj.borne.modules.commerce.unit.CommerceSlot;
@@ -27,6 +28,8 @@ public final class CommerceMenu extends Menu {
         this.commerce = commerce;
 
         this.page = 1;
+
+        Borne.getBorne().getMenuManager().registerMenu(this.getId(), player.getName(), this);
     }
 
     public void open() {
@@ -45,7 +48,7 @@ public final class CommerceMenu extends Menu {
 
         for (int i = 0; i < 9; i++)
             this.setSlot(i, fill);
-        for (int i = 36; i < 45; i++)
+        for (int i = 45; i < 54; i++)
             this.setSlot(i, fill);
 
         final CommercePage commercePage = commerce.getPage(page);

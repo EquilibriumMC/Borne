@@ -74,6 +74,7 @@ public final class BorneLoader implements Borne {
     private final MineManager mineManager;
     private final BossManager bossManager;
     private final ProtectedCuboidManager protectedCuboidManager;
+    private final CommerceManager commerceManager;
 
     public BorneLoader(final BornePlugin plugin) {
         loader = this;
@@ -99,6 +100,7 @@ public final class BorneLoader implements Borne {
         this.mineManager = new MineManager();
         this.bossManager = new BossManager();
         this.protectedCuboidManager = new ProtectedCuboidManager();
+        this.commerceManager = new CommerceManager();
     }
 
     @Override
@@ -118,6 +120,7 @@ public final class BorneLoader implements Borne {
         this.mineManager.preload();
         this.bossManager.preload();
         this.protectedCuboidManager.preload();
+        this.commerceManager.preload();
     }
 
     @Override
@@ -137,6 +140,7 @@ public final class BorneLoader implements Borne {
         this.mineManager.initialize();
         this.bossManager.initialize();
         this.protectedCuboidManager.initialize();
+        this.commerceManager.initialize();
 
         this.loadClasses();
         this.loadListeners();
@@ -229,6 +233,7 @@ public final class BorneLoader implements Borne {
 
     @Override
     public void shutdown() {
+        this.commandManager.shutdown();
         this.protectedCuboidManager.shutdown();
         this.bossManager.shutdown();
         this.mineManager.shutdown();

@@ -26,7 +26,7 @@ public class CommerceSlot extends CommerceUnit {
     private int slot = -1;
 
     public static MenuSlot convertToMenu(final CommerceSlot slot) {
-        final MenuSlot item = new MenuSlot(slot.getDisplay());
+        final MenuSlot item = new MenuSlot(slot.getDisplay().clone());
 
         item.setPosition(slot.getSlot());
 
@@ -36,9 +36,10 @@ public class CommerceSlot extends CommerceUnit {
             if (wallet == CommerceWallet.MONEY)
                 lore.add(new Text(" &8- " + Component.ORANGE + slot.getPrice().getPrice(CommerceWallet.MONEY) + " &f혤"));
             if (wallet == CommerceWallet.DONATED)
-                lore.add(new Text(" &8- " + Component.ORANGE + slot.getPrice().getPrice(CommerceWallet.DONATED) + " &f혣"));
+                lore.add(new Text(" &8- &x&e&7&9&2&f&0" + slot.getPrice().getPrice(CommerceWallet.DONATED) + " &f혣"));
         }
         lore.add(new Text());
+        lore.add(new Text("&8» &eНажмите для покупки.."));
 
         item.addLore(lore);
         item.setExecutableClick(new ExecutableClick() {
@@ -56,7 +57,7 @@ public class CommerceSlot extends CommerceUnit {
                 CommerceUtils.pay(profile, slot.getPrice());
 
                 InventoryUtils.addItems(player, slot.getStackList());
-                slot.getRunnables().forEach(Runnable::run);
+                slot.getExecutable().onBuy(profile);
 
                 if (Bukkit.isPrimaryThread()) {
                     slot.getCommandList().forEach(command ->

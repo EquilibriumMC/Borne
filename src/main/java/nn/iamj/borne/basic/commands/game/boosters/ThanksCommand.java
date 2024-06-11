@@ -74,6 +74,13 @@ public final class ThanksCommand extends Command {
 
         if (configuration == null) return;
 
+        final Profile author = Profile.asName(pair.getKey());
+
+        if (author == null) {
+            profile.sendText(Component.text(Component.Type.ERROR, "Бустер запущен системой, Вы не можете отблагодарить это."));
+            return;
+        }
+
         final double modifier = configuration.getDouble("THANKS-MODIFIER", 0.006);
         final double balance = profile.getWallet().getMoney() * (modifier * pair.getValue().getModifier());
 
@@ -81,8 +88,6 @@ public final class ThanksCommand extends Command {
             profile.sendText(Component.text(Component.Type.ERROR, "У Вас очень маленький баланс, для того чтобы отблагодарить бустера :("));
             return;
         }
-
-        final Profile author = Profile.asName(pair.getKey());
 
         author.getWallet().addMoney(balance);
         profile.getWallet().removeMoney(balance * 1.02);

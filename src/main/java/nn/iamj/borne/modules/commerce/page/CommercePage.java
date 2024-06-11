@@ -13,4 +13,20 @@ public class CommercePage {
 
     private List<CommerceSlot> unitList = new ArrayList<>();
 
+    public void addUnit(final CommerceSlot slot) {
+        this.unitList.add(slot);
+    }
+
+    public void addUnit(final CommerceUnit unit) {
+        this.unitList.add(CommerceSlot.convertToSlot(unit));
+    }
+
+    public void removeUnit(final CommerceSlot slot) {
+        this.unitList.remove(slot);
+    }
+
+    public void removeUnit(final CommerceUnit unit) {
+        this.unitList.remove(CommerceSlot.convertToSlot(unit));
+    }
+
 }

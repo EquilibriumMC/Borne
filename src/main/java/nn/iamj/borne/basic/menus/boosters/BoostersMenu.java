@@ -3,6 +3,7 @@ package nn.iamj.borne.basic.menus.boosters;
 import nn.iamj.borne.Borne;
 import nn.iamj.borne.modules.booster.Booster;
 import nn.iamj.borne.modules.booster.BoosterStorage;
+import nn.iamj.borne.modules.commerce.menu.CommerceMenu;
 import nn.iamj.borne.modules.menu.Menu;
 import nn.iamj.borne.modules.menu.executable.ExecutableClick;
 import nn.iamj.borne.modules.menu.slot.MenuSlot;
@@ -47,8 +48,12 @@ public final class BoostersMenu extends Menu {
         final int pages = (int) (Math.ceil(boosterList.size() / 36.0D));
         final int startIndex = ((page - 1) * 36);
 
+        final Player player = profile.asBukkit();
+
+        if (player == null) return;
+
         if (boosterList.isEmpty()) {
-            profile.sendText(Component.text(Component.Type.ERROR, "У Вас нету бустеров."));
+            new CommerceMenu(player, Borne.getBorne().getCommerceManager().getCommerce("boosters")).open();
             return;
         }
 
@@ -121,6 +126,21 @@ public final class BoostersMenu extends Menu {
 
         this.setSlot(49, exit);
 
+        final MenuSlot shop = new MenuSlot(Material.PLAYER_HEAD);
+        shop.setDisplay(new Text(Component.ORANGE + "Магазин бустеров.."));
+        shop.setHeadTexture("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTc2MmExNWIwNDY5MmEyZTRiM2ZiMzY2M2JkNGI3ODQzNGRjZTE3MzJiOGViMWM3YTlmN2MwZmJmNmYifX19");
+        shop.setExecutableClick(new ExecutableClick() {
+            @Override
+            public void onLeft(final Profile profile) {
+                final Player player = profile.asBukkit();
+
+                if (player == null) return;
+
+                new CommerceMenu(player, Borne.getBorne().getCommerceManager().getCommerce("boosters")).open();
+            }
+        });
+        this.setSlot(51, shop);
+
         if (pages > 1 && pages != page) {
             final MenuSlot next = new MenuSlot(Material.ARROW);
 
@@ -150,10 +170,6 @@ public final class BoostersMenu extends Menu {
 
             this.setSlot(45, prev);
         }
-
-        final Player player = profile.asBukkit();
-
-        if (player == null) return;
 
         player.openInventory(this.getInventory());
     }

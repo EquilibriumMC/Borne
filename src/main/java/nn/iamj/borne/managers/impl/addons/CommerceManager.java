@@ -1,5 +1,6 @@
 package nn.iamj.borne.managers.impl.addons;
 
+import nn.iamj.borne.basic.commerce.BoostersCommerce;
 import nn.iamj.borne.managers.Manager;
 import nn.iamj.borne.modules.commerce.Commerce;
 
@@ -14,7 +15,9 @@ public final class CommerceManager implements Manager {
     public void preload() {}
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        this.registerCommerce("boosters", new BoostersCommerce());
+    }
 
     @Override
     public void shutdown() {

@@ -67,8 +67,8 @@ public class MinesMenu extends Menu {
             final List<Text> lore = new ArrayList<>();
 
             lore.add(new Text());
-            lore.add(new Text(" &8| &fМинимальный уровень: &e" + mine.getSettings().getMinLevel()));
-            lore.add(new Text(" &8| &fPvP: " + (mine.getSettings().isAllowPvP() ?
+            lore.add(new Text(" &8&fМинимальный уровень: &e" + mine.getSettings().getMinLevel()));
+            lore.add(new Text(" &8&fPvP: " + (mine.getSettings().isAllowPvP() ?
                     configuration.getString("MINES.PLACEHOLDER.ALLOW-PVP.TRUE", "&x&1&1&f&f&1&1Включено") :
                     configuration.getString("MINES.PLACEHOLDER.ALLOW-PVP.FALSE", "&x&f&f&1&1&1&1Выключено"))));
             lore.add(new Text());
@@ -80,7 +80,7 @@ public class MinesMenu extends Menu {
             slot.setExecutableClick(new ExecutableClick() {
                 @Override
                 public void onLeft(final Profile profile) {
-                    if (profile.getLevel().getLevel() < mine.getSettings().getMinLevel()) {
+                    if (profile.getLevel().getLevel() < mine.getSettings().getMinLevel() && !profile.asBukkit().hasPermission("borne.admin")) {
                         profile.sendText(Component.text(Component.Type.ERROR, "Ваш уровень мал для телепортации на эту шахту."));
                         return;
                     }
